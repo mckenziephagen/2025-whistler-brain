@@ -1,0 +1,257 @@
+---
+poster_height: 36in
+poster_width: 42in
+
+title: Evaluating regularized modeling methods for calculating functional connectivity
+author:
+  - name: McKenzie Paige Hagen
+    affil: 1, 2
+    orcid: '0000-0002-7454-8189'
+  - name: Ariel Rokem
+    affil: 1, 3
+  - name: Kristofer Bouchard
+    affil: 2
+#TODO: fix
+# orcid: 0000-0003-0679-1985
+# ariel's orcid screws up the formatting of the affiliations 
+affiliation:
+  - num: 1
+    address: Department of Psychology, University of Washington
+  - num: 3
+    address: eScience Institute, University of Washington 
+  - num: 2
+    address: Lawrence Berkeley National Lab
+
+primary_colour: "#00313C"
+affiliation_textsize: "20pt"
+title_textsize: "72pt"
+author_textsize: "50pt"
+reference_textsize: "16pt"
+column_numbers: 3
+font_family: "Gelasio"
+titletext_fontfamily: "Arial"
+columnline_width: 0
+
+output:
+  posterdown::posterdown_html:
+    self_contained: true
+    pandoc_args: ["--csl=science-without-titles.csl"]
+
+header-includes:
+    - \usepackage[labelformat=empty]{caption}
+
+bibliography: [packages.bib, references.bib]
+
+knit: pagedown::chrome_print
+---
+
+<!-- logoleft_name: "./images/W-Logo_White.png"
+logoright_name: "./images/transparent_csgf.png"
+ -->
+<style>
+/* change poster body text */
+.poster_body h1 {
+    
+}
+
+.poster_wrap { 
+height: 40in;
+}
+
+body {
+bottom-margin: 0px;
+}
+
+/* change color of subsection headers */
+.poster_body h1 {
+    font-family: "Arial", sans-serif;
+    background-color: #63666A;
+    border: #63666A;
+    text-align: center; 
+    width:100%;
+}
+    
+/*this gets rid of the line break with the affiliations*/
+h5 br {
+    display: none;
+    
+}
+
+.poster_title { 
+width: 90%;
+} 
+    
+.poster_title h1 {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    margin-top:1cm;
+    width: 100%
+    
+}
+    
+/* This controls the affiliations.*/
+.poster_title h5 {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    margin-top:-1cm;
+}
+
+    /* controls author list */
+.poster_title h3 {
+    font-family: "Arial", sans-serif;
+    margin-top:-1cm;
+}
+
+.title_container {
+    height: 105mm;}/* found using trial and error */
+
+</style>
+
+
+<!---
+This is how you do comments.
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+![](./images/berkeley_lab_white.png){height=120 style="position: absolute; top: 140px; left: 10%;"}
+
+![](./images/light_purple_w.png){height=150 style="position: absolute; top: 100px; left: 92%;"}
+
+![](./images/nsml_lab.jpg){height=250 style="position: absolute; top: 30px; left: 2%;"}
+
+![](./images/CSGF_vert.png){height=150 style="position: absolute; top: 100px; left: 85%;"}
+
+
+
+<div style="margin-top:-1cm">
+# Background
+
+- Functional MRI (fMRI) is used to non-invasively study the human brain.
+- <b>Functional connectome:</b> the statistical relationship between every pair of brain regions.[@Wang2014-ph]
+
+<p style = "margin-top:-4cm">  
+![](images/functional_connectivity.png){#id .class width=100% height=100%}
+</p>
+<p style = "margin-top:-1.5cm; position: relative; z-index:10"> 
+- Most of fMRI literature uses Pearson correlation coefficient between brain regions to calculate the functional connectome.
+    - Pearson correlation connectomes are theoretically, psychometrically, and empirically flawed. 
+- We investigate using the estimated model weights as alternatives to Pearson. 
+
+**Do functional connectomes calculated with regularized methods overcome the drawbacks of Pearson connectomes?**
+</p>
+</div> 
+
+
+<p style="margin-top:-1.5cm"> 
+    
+# Methods
+
+</p>
+<b> Data: </b> Human Connectome Project - openly available, high quality MRI dataset of 1,000+ "healthy" young adults.
+<p style="margin-top:-.5cm">
+- Current analyses use four sessions from 100 randomly selected participants as discovery dataset.
+- fMRI images processed into 100 brain regions using Schaefer atlas.
+</p>
+<p style="margin-top:-.5cm">
+
+<b> Pearson correlation:</b> Pearson correlation between each region's timeseries represents connectivity between regions. 
+</p>
+<p style="margin-top:-.5cm">
+<b>LASSO and UoI:</b> Model beta weights fit with cross-validation predicting target region's timeseries from every other timeseries represents connectivity. 
+</p>
+<p style="margin-top:-2cm">
+
+![](images/uoi_diagram.png){#id .class width=100% height=100%}
+LASSO models fit with L1 regularization penalizing sum of the absolute value of beta weights. UoI models fit with a combination of model selection and estimation with resampling. Figure from [@Sachdeva2021-sf].
+</p>
+
+
+<div style="position: relative; width:200%; margin:">
+
+# Preliminary Results
+
+Connectomes evaluated using characteristics desirable for empirical analyses using functional connectomes: sparsity, reliability, identifiability ("fingerprinting"), correlation with motion ("qcfc"). 
+
+<!-- <p style="margin-top:-2cm">
+![](images/matrices.png){#id .class width=100% height=100%}
+</p> -->
+<!-- <p style="margin-top:-1.75cm">
+**Examplar connectomes from one participant.** LASSO and UoI matrices are (necessarily due to regularization) <i> more sparse </i> than Pearson Correlations. 
+</p> -->
+
+</div>
+
+
+<div style="position: relative; margin-top:-2.3cm;">
+![](images/selection_ratio.png){#id .class width=100% height=100%}
+<p style="margin-top:-.75cm">
+**Selection ratio.** The proportion of selected edges by each model for each participant. Pearson connectomes not shown since all edges are selected. UoI selects far fewer edges than LASSO, demonstrating biologically-realistic sparsity.
+</p>
+</div>
+
+
+<p style="margin-top: -2cm"> 
+![](images/fingerprinting_reliability.png){#id .class width=100% height=100%}
+</p>
+<p style="margin-top:-1.5cm">
+**Psychometric Properties.** UoI and LASSO perform equally well as Pearson correlation on participant identification and repeat reliability (error bars: 95% CI). 
+</p>
+
+
+<div style="position: relative; margin-top: -1cm">
+
+# High Performance Computing
+
+- UoI computationally demanding for long scans and large sample sizes, but "embarrassingly parallel"
+- "Datalad" (distributed data management) used to minimize long-term storage demands   
+- Strict naming conventions helpful for data organization and sharing: Brain Imaging Data Structure Extention Project (BIDS-BEP17) used formalize file format and naming convention for connectomes
+</div>
+
+<!-- #region -->
+\
+
+
+<p style="margin-top:2cm">
+![](images/qcfc.png){#id .class width=100% height=100%}
+</p>
+<p style="margin-top:-1cm">
+**Edge correlation with motion.** Pearson connectomes have more edges that are significantly correlated with particpant motion during scanning, indicating that they are not capturing true connectivity, but motion-induced spurious correlations. 
+</p>
+<!-- #endregion -->
+
+# Conclusions
+- Regularized connectomes show promise for correcting the flaws of Pearson connectomes.
+- Regularized connectomes are sparse, reliable, and empirically valid. 
+
+<b> Future Directions: </b>
+
+- Confirm current findings with whole HCP dataset, other large datasets.
+- Other metrics to evaluate connectomes are phenotypic predictions and robustness to processing pipeline variabilty. 
+- Re-evaluate previous studies with LASSO/UoI to determine the robustness of their findings with regularized modeling methods.
+<p style="margin-top:-.5cm">
+    
+# Acknowledgements
+</p>
+<div style="transform: translate(0px,-95px); height: 30%; padding: 0; float: left" >
+![](images/nersc_logo.png)  ![](images/nih_logo1.png) ![](images/nsf_logo.jpeg)
+</div> 
+Data provided by the Human Connectome Project, WU-Minn Consortium.
+<p style="position: absolute;">
+Funding (DE-SC0023112) and practicum experience provided by Krell Institute, the Department of Energy and Lawrence Berkeley National Lab.
+</p>
+
+
+<style> 
+.ref_title {position:absolute; width:32%; margin-top:5cm }
+</style>
+
+# References {#identifier .ref_title}
+<div id="refs"></div>
+
+Contact: mphagen@uw.edu 
+
+
+
